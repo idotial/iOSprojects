@@ -30,18 +30,16 @@ class ViewController: UIViewController {
     
     @IBAction func type(_ sender: UIButton) {
         let append = sender.currentTitle!
-        if isTyping == false {
-            if append != "0" {
-                display.text = append
-                isTyping = true
-            }
+        if isTyping == false || display.text == "0"{
+            display.text = append
+            isTyping = true
         }else{
-            display.text = display.text! + append
+            display.text = display.text!+append
         }
     }
     
     @IBAction func putDot() {
-        if !hasDot {
+        if !hasDot && isTyping{
             hasDot = true
             display.text = display.text!+"."
         }
@@ -49,15 +47,17 @@ class ViewController: UIViewController {
     
     @IBAction func clear() {
         displayValue = 0
+        isTyping=false
+        hasDot=false
         brain.clear()
     }
     
     @IBAction func enter(_ sender: UIButton) {
-        isTyping = false
-        hasDot = false
         brain.pushNum(operand: displayValue)
         let result = brain.performOp(op: sender.currentTitle!)
         displayValue = result
+        isTyping = false
+        hasDot = false
     }
     
 }
